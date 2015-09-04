@@ -1,0 +1,11 @@
+{
+  "name": "Eggtimer",
+  "version": "1.0.0",
+  "description": "An egg timer.",
+  "author": {
+    "name": "Myk Melez",
+    "email": "myk@mykzilla.org",
+    "url": "http://mykzilla.org/"
+  },
+  "homepage": "https://github.com/eggtimer/"
+}
