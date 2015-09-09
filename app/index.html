@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en" style="height: 100%; width: 100%">
   <head>
-    <meta charset="UTF-8">
-      <title>Offline Template App</title>
+      <title>Egg Timer</title>
+      <link rel="stylesheet" href="index.css">
       <script src="scripts/offline-manager.js"></script>
+      <script type="application/javascript" src="index.js"></script>
   </head>
 
-  <body>
-    Hello, World! This is the Offline Template App.
+  <body onload="onLoad()" onkeypress="onKeyPress(event)" onresize="onResize()">
+    <div id="content">
+      <span id="time"></span>
+    </div>
   </body>
 </html>
