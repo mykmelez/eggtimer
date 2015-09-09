@@ -24,7 +24,7 @@
 
 
 
-var PrecacheConfig = [["index.css","3ce44e48f8d25e8a10dc1babfeb57f11"],["index.html","8faeaa7dd2db563dca1a8cedcea26e90"],["index.js","2a4f40a8d7cefb3d321bed3507b08df1"],["service-worker-registration.js","824607abf2503f7e8fea53521b9949e4"],["service-worker.js","05a33c88f289dade5fedb45bd6841663"]];
+var PrecacheConfig = [["index.css","3ce44e48f8d25e8a10dc1babfeb57f11"],["index.html","f153645c6ee243915e3ff8958fbad6f5"],["index.js","2a4f40a8d7cefb3d321bed3507b08df1"],["offline-worker.js","8148bc139d620d245628d1acfd02d3a9"],["scripts/offline-manager.js","28bd78ca4fcf8ae2b562c51a1cd2f5d3"]];
 var CacheNamePrefix = 'sw-precache-v1-Eggtimer-' + (self.registration ? self.registration.scope : '') + '-';
 
 
