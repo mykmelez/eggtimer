@@ -22,7 +22,7 @@
 
 'use strict';
 
-console.log("foo!");
+console.log("foo! bar!");
 
 var PrecacheConfig = [["index.css","3ce44e48f8d25e8a10dc1babfeb57f11"],["index.html","f153645c6ee243915e3ff8958fbad6f5"],["index.js","2a4f40a8d7cefb3d321bed3507b08df1"],["offline-worker.js","4b5d683acc59def9c4bbf55712444c93"],["scripts/offline-manager.js","28bd78ca4fcf8ae2b562c51a1cd2f5d3"]];
 var CacheNamePrefix = 'sw-precache-v1-Eggtimer-' + (self.registration ? self.registration.scope : '') + '-';
