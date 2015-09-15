@@ -4,3 +4,4 @@ node_js:
 env:
   global:
     - PLACEHOLDER: 'Fix the bug that requires this placeholder to add entries to this list!'
+    - secure: QoUGIZiq1mP/m0iBCvKT3MQhe1mACSYYURnI9Brxugg/sH0B9PrqxO04/F0qgJtzSaGDV6yZTrOTIwcEwSJCvjrlSeOJJW0ZtF3ka1IdYMcl1h7c/C5x8SLtXjuQfYsG1Byw24s0ttOQg9I2FsaTLOEnDno+xPUOQ173/JVP08mKKxl+Y5AXMu6XvvnISTzhfmDTcFh/VrZe1hNEHK6KEQo0Xq+EUF2T0vY/I8jw4oQROQrtI+IY4ZGUD0eVYivByoCy+vyy6NLq8I93KXAc+HwCkNU7glw1rVuuWmMTdUjC66fcQYs+IhZWJObUG0v7T5HTWi6V3kYFiZ+iXX02t8sCKz6yE3AWL2BTq0yCjh0Odc3Udci4JonZSlMIB6axW1wVwhOhsMpJuezGj7gvmGH+4Y4JuqBqBXUS1c+OQ7GyLvmjmZHjOqaiyRK3DId+RXyETeT1OjayEb8plb+UV4wqD0CHpMvjbqbd91bFWdza41/0iihlU2mpkxSyQ+KNAsBXDYr9W+167xbnOPcUrb5KYzaE5ewZ1cSU8P/9IdWEzJk65ul3PUXzzInL9nc3AkzJSJ1WdwtMHkByuZSvBPn1X+lk9Qixd7Vg66nTH1V65YwV+lAnVnwYZTbj6JbPgGMYylm/Y/CvDOtY7SxlYVOzrFUyyuo8AlBcH1m5eXM=
