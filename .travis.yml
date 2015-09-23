@@ -3,7 +3,7 @@ node_js:
   - '0.10'
 env:
   global:
-    - PLACEHOLDER: 'Fix the bug that requires this placeholder to add entries to this list!'
+    - secure: q9FsuzPHweLdvBgf0HZlZ3WskjoFxXRNda5Cz8et1KNXlHstzKlbgEmybGrxsOPeaf8aUZzjKTAP6j0sg4PgAWloBpm+UNLuJmoAa7wk6IjKfmu9LKeeSHUP1L+VkTiMJA2QkIZDrDyZZ3cs+tYERn12BZ9+cI2KrzOEejwiz6ofpN1s7l2CcJ72rHk61xFWxk0vsRgnViFzV8ZCLvv/ifARpXeH7urjhyJW927Z6NhrQ2Q8JLGqwKUZni5LTxbx53c5IZ1sL0liEGslSXdNIszpxt9dew5lP0rQDL7lZvzk1+Uw1Zp+JV3xipMtAD+1yqDmTzqlehHUXDq4m/CJOEmHaXZy4dOetz2Oxx8N9vJXhzjLXk8GAVcCUrFHHlxh25M80ZPqpRN+f+RIkkSklzyGQT8hzFEbAsiSFSFNhXhhdVE3yQpkhML6NlKePVFCtliMVeGOBEjbXjP6AssrEBzezUsnbrMlpr/yYhStnpJkt2cQA+KmXd8XXZYCggcKGrPY7AlrbEJuKPipbrmckkUnx6n5vkb0h/t0ObgA+1Y0sesKsvsxpi9kjEL+ud/TRHHIqCaGQIiAdGETOj3kYhsTNDKo15S8OJ//SmyvRRfWEZSwzwIvKpfGiJH6QAaRwkv4UWydMzkflbGwv+7tS3h3I6MFa39upjRGqd+jdsg=
 install: npm install
 before_script:
   - 'git config --global user.name "Travis-CI"'
