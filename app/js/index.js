@@ -13,13 +13,31 @@ var remainingTime;
 var timerState;
 var requestID;
 
-function onLoad() {
+function onPageShow() {
   hasInnerText = ("innerText" in document.getElementsByTagName("body")[0]) ? true : false;
   resizeTime();
   timerState = localStorage.getItem('timerState') || 'stopped';
   remainingTime = parseFloat(localStorage.getItem('remainingTime')) || 0;
-  if (timerState === 'paused') {
-    showTime(remainingTime);
+  switch (timerState) {
+    case 'paused':
+      showTime(remainingTime);
+      break;
+    case 'running':
+      // If we were running when the page was hidden, then we subtract the time
+      // we spent hidden, so the timer accounts for it and remains accurate.
+      var showTime = Date.now();
+      remainingTime = remainingTime - (showTime - (parseInt(localStorage.getItem('hideTime')) || showTime));
+      showTime(remainingTime);
+      resumeTimer();
+      break;
+  }
+}
+
+function onPageHide() {
+  if (timerState === 'running') {
+    pauseTimer();
+    localStorage.setItem('timerState', 'running');
+    localStorage.setItem('hideTime', Date.now());
   }
 }
 
@@ -37,12 +55,12 @@ function onKeyPress(event) {
     // Ignore special keys, which we don't handle.
     return;
 
-  switch(code) {
+  switch (code) {
     case 13: // DOM_VK_RETURN
     case 14: // DOM_VK_ENTER
     case 32: // DOM_VK_SPACE
       enteringDigits = false;
-      switch(timerState) {
+      switch (timerState) {
         case 'stopped':
           startTimer();
           break;
