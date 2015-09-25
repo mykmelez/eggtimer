@@ -41,6 +41,7 @@ gulp.task('offline', ['build'], function(callback) {
       '*.html',
       'css/*.css',
       'js/*.js',
+      'favicon/*',
     ],
   }, callback);
 });
