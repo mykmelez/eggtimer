@@ -1,18 +1,44 @@
-// Time values are four-element arrays of single digits representing:
+// *Digits are four-element arrays of single digits representing:
 // element 0: seconds
 // element 1: tens of seconds
 // element 2: minutes
 // element 3: tens of minutes
-var initialTime = [0, 0, 5, 0];
-var currentTime;
-var intervalID;
-var typingDigits = false;
-var hasInnerText;
+var enteredDigits = [0, 0, 5, 0];
+var displayedDigits = enteredDigits.slice(0);
 
-function onLoad() {
+var enteringDigits = false;
+var hasInnerText;
+var then;
+var remainingTime;
+var timerState;
+var requestID;
+
+function onPageShow() {
   hasInnerText = ("innerText" in document.getElementsByTagName("body")[0]) ? true : false;
-  resetTimer();
   resizeTime();
+  timerState = localStorage.getItem('timerState') || 'stopped';
+  remainingTime = parseFloat(localStorage.getItem('remainingTime')) || 0;
+  switch (timerState) {
+    case 'paused':
+      showTime(remainingTime);
+      break;
+    case 'running':
+      // If we were running when the page was hidden, then we subtract the time
+      // we spent hidden, so the timer accounts for it and remains accurate.
+      var now = Date.now();
+      remainingTime = remainingTime - (now - (parseInt(localStorage.getItem('hideTime')) || now));
+      showTime(remainingTime);
+      resumeTimer();
+      break;
+  }
+}
+
+function onPageHide() {
+  if (timerState === 'running') {
+    pauseTimer();
+    localStorage.setItem('timerState', 'running');
+    localStorage.setItem('hideTime', Date.now());
+  }
 }
 
 function onKeyPress(event) {
@@ -29,21 +55,29 @@ function onKeyPress(event) {
     // Ignore special keys, which we don't handle.
     return;
 
-  switch(code) {
+  switch (code) {
     case 13: // DOM_VK_RETURN
     case 14: // DOM_VK_ENTER
     case 32: // DOM_VK_SPACE
-      typingDigits = false;
-      if      (intervalID)  stopTimer();
-      else if (isRunOut())  resetTimer();
-      else                  startTimer();
+      enteringDigits = false;
+      switch (timerState) {
+        case 'stopped':
+          startTimer();
+          break;
+        case 'running':
+          pauseTimer();
+          break;
+        case 'paused':
+          resumeTimer();
+          break;
+      }
       // IE's key events don't support preventDefault.
       if (event.preventDefault)
         event.preventDefault();
       return false;
 
     case 27: // DOM_VK_ESCAPE
-      typingDigits = false;
+      enteringDigits = false;
       stopTimer();
       resetTimer();
       // IE's key events don't support preventDefault.
@@ -71,15 +105,14 @@ function onKeyPress(event) {
     //case 103: // DOM_VK_NUMPAD7
     //case 104: // DOM_VK_NUMPAD8
     //case 105: // DOM_VK_NUMPAD9
-      // We only let the user set the time if the timer isn't already
-      // running.
-      if (!intervalID) {
+      // We only let the user set the time when the timer is stopped.
+      if (timerState === 'stopped') {
         // If the user just started typing a time, reset the timer
         // to all zeros so the user can enter a partial time without
         // some of the previous time potentially hanging around.
-        if (!typingDigits) {
-          initialTime = [0, 0, 0, 0];
-          typingDigits = true;
+        if (!enteringDigits) {
+          enteredDigits = [0, 0, 0, 0];
+          enteringDigits = true;
         }
         addDigit(parseInt(String.fromCharCode(code)));
       }
@@ -95,41 +128,102 @@ function onResize() {
   resizeTime();
 }
 
+function animateTimer(now) {
+  var elapsedTime = now - then;
+  then = now;
+
+  // The time remaining, to the highest degree of precision.  We use this
+  // instead of the displayed time to record the remaining time when we
+  // pause/resume the timer so we don't lose an fractions of a second.
+  // We also use it to determine when to stop the timer once there's less than
+  // a second remaining, even though the display reads 00:00 at that point,
+  // and we don't update it anymore, so that we'll finish counting the last
+  // second correctly in the event that we start displaying something
+  // when the timer hits zero.
+  remainingTime = remainingTime - elapsedTime;
+
+  // Ensure remaining time is never less than zero.  I don't know how likely
+  // it is, but presumably this could happen if the browser delays calling
+  // the requestAnimationFrame callback when the page is in a background tab.
+  if (remainingTime < 0) {
+    remainingTime = 0;
+  }
+
+  showTime(remainingTime);
+
+  if (remainingTime > 0) {
+    requestID = requestAnimationFrame(animateTimer);
+  } else {
+    requestID = 0;
+    stopTimer();
+  }
+}
+
 function startTimer() {
-  intervalID = window.setInterval(decrementTimer, 1000);
+  remainingTime = (parseInt(enteredDigits[3] + '' + enteredDigits[2]) * 60 + parseInt(enteredDigits[1] + '' + enteredDigits[0])) * 1000;
+  resumeTimer();
 }
 
 function stopTimer() {
-  window.clearInterval(intervalID);
-  intervalID = null;
-}
-
-function decrementTimer() {
-  if (--currentTime[0] < 0) {
-    currentTime[0] = 9;
-    if (--currentTime[1] < 0) {
-      currentTime[1] = 5;
-      if (--currentTime[2] < 0) {
-        currentTime[2] = 9;
-        --currentTime[3];
-      }
-    }
+  if (requestID) {
+    cancelAnimationFrame(requestID);
+    requestID = 0;
   }
 
-  showTime(currentTime);
+  timerState = 'stopped';
+}
 
-  if (isRunOut())
-    stopTimer();
+function pauseTimer() {
+  if (requestID) {
+    cancelAnimationFrame(requestID);
+    requestID = 0;
+  }
+
+  var elapsedTime = performance.now() - then;
+  remainingTime = remainingTime - elapsedTime;
+
+  // It seems unlikely that someone would be able to pause the timer
+  // after the remaining time has decreased enough to change the displayed time,
+  // but before an animation frame has actually updated the displayed time.
+  // Nevertheless, it doesn't hurt to update it here, just in case.
+  showTime(remainingTime);
+
+  timerState = 'paused';
+
+  localStorage.setItem('timerState', 'paused');
+  localStorage.setItem('remainingTime', remainingTime);
+}
+
+function resumeTimer() {
+  then = performance.now();
+  requestID = requestAnimationFrame(animateTimer);
+  timerState = 'running';
 }
 
 function resetTimer() {
-  currentTime = initialTime.join(",").split(",");
-  showTime(currentTime);
+  showDigits(enteredDigits);
 }
 
 function showTime(time) {
+  var minutes = time / 1000 / 60 | 0;
+  var seconds = time / 1000 % 60 | 0;
+  showDigits([
+    seconds % 10 | 0,
+    seconds / 10 | 0,
+    minutes % 10 | 0,
+    minutes / 10 | 0,
+  ]);
+}
+
+function showDigits(digits) {
+  if (digits[0] === displayedDigits[0] && digits[1] === displayedDigits[1] &&
+      digits[2] === displayedDigits[2] && digits[3] === displayedDigits[3]) {
+    return;
+  }
+
+  displayedDigits = digits.slice(0);
   document.getElementById("time")[hasInnerText ? "innerText" : "textContent"] = 
-    (String(time[3]) + String(time[2]) + ":" + String(time[1]) + String(time[0]));
+    (String(digits[3]) + String(digits[2]) + ":" + String(digits[1]) + String(digits[0]));
 }
 
 function resizeTime() {
@@ -148,15 +242,8 @@ function resizeTime() {
     time.style.fontSize = --i + "px";
 }
 
-function isRunOut() {
-  return (currentTime[0] == 0 &&
-          currentTime[1] == 0 &&
-          currentTime[2] == 0 &&
-          currentTime[3] == 0);
-}
-
 function addDigit(digit) {
-  initialTime.unshift(digit);
-  initialTime.length = 4;
+  enteredDigits.unshift(digit);
+  enteredDigits.length = 4;
   this.resetTimer();
 }

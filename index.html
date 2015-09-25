@@ -3,13 +3,13 @@
   <head>
       <title>Egg Timer</title>
       <link rel="stylesheet" href="css/index.css">
-      <script src="js/offline-manager.js"></script>
-      <script src="js/index.js"></script>
   </head>
 
-  <body onload="onLoad()" onkeypress="onKeyPress(event)" onresize="onResize()">
+  <body onpageshow="onPageShow()" onpagehide="onPageHide()" onkeypress="onKeyPress(event)" onresize="onResize()">
     <div id="content">
-      <span id="time"></span>
+      <span id="time">05:00</span>
     </div>
+    <script src="js/offline-manager.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>
