@@ -134,10 +134,6 @@ function onKeyPress(event) {
 
 }
 
-function onResize() {
-  resizeTime();
-}
-
 function animateTimer(now) {
   var elapsedTime = now - then;
   then = now;
