@@ -15,7 +15,6 @@ var requestID;
 
 function onPageShow() {
   hasInnerText = ("innerText" in document.getElementsByTagName("body")[0]) ? true : false;
-  resizeTime();
   timerState = localStorage.getItem('timerState') || 'stopped';
   remainingTime = parseFloat(localStorage.getItem('remainingTime')) || 0;
   switch (timerState) {
@@ -41,6 +40,30 @@ function onPageHide() {
   }
 }
 
+document.getElementById('resetButton').addEventListener('click', onResetButtonClick, false);
+var startPauseButton = document.getElementById('startPauseButton');
+startPauseButton.addEventListener('click', onStartPauseButtonClick, false);
+
+function onResetButtonClick() {
+  enteringDigits = false;
+  stopTimer();
+  resetTimer();
+}
+
+function onStartPauseButtonClick() {
+  enteringDigits = false;
+  switch (timerState) {
+    case 'stopped':
+      startTimer();
+      break;
+    case 'running':
+      pauseTimer();
+      break;
+    case 'paused':
+      resumeTimer();
+      break;
+  }
+}
 function onKeyPress(event) {
   // Let the browser handle key combinations.
   if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey)
@@ -59,27 +82,14 @@ function onKeyPress(event) {
     case 13: // DOM_VK_RETURN
     case 14: // DOM_VK_ENTER
     case 32: // DOM_VK_SPACE
-      enteringDigits = false;
-      switch (timerState) {
-        case 'stopped':
-          startTimer();
-          break;
-        case 'running':
-          pauseTimer();
-          break;
-        case 'paused':
-          resumeTimer();
-          break;
-      }
+      onStartPauseButtonClick();
       // IE's key events don't support preventDefault.
       if (event.preventDefault)
         event.preventDefault();
       return false;
 
     case 27: // DOM_VK_ESCAPE
-      enteringDigits = false;
-      stopTimer();
-      resetTimer();
+      onResetButtonClick();
       // IE's key events don't support preventDefault.
       if (event.preventDefault)
         event.preventDefault();
@@ -171,6 +181,7 @@ function stopTimer() {
   }
 
   timerState = 'stopped';
+  startPauseButton.src = 'img/start.svg';
 }
 
 function pauseTimer() {
@@ -189,6 +200,7 @@ function pauseTimer() {
   showTime(remainingTime);
 
   timerState = 'paused';
+  startPauseButton.src = 'img/start.svg';
 
   localStorage.setItem('timerState', 'paused');
   localStorage.setItem('remainingTime', remainingTime);
@@ -198,6 +210,7 @@ function resumeTimer() {
   then = performance.now();
   requestID = requestAnimationFrame(animateTimer);
   timerState = 'running';
+  startPauseButton.src = 'img/pause.svg';
 }
 
 function resetTimer() {
@@ -224,22 +237,6 @@ function showDigits(digits) {
   displayedDigits = digits.slice(0);
   document.getElementById("time")[hasInnerText ? "innerText" : "textContent"] = 
     (String(digits[3]) + String(digits[2]) + ":" + String(digits[1]) + String(digits[0]));
-}
-
-function resizeTime() {
-  var time = document.getElementById("time");
-  var body = document.getElementsByTagName("body")[0];
-
-  var i = parseInt(time.style.fontSize) || 48;
-
-  // Make the time about 2/3 of the width or height of the window.
-  while (time.offsetWidth < body.offsetWidth*2/3 &&
-         time.offsetHeight < body.offsetHeight*2/3)
-    time.style.fontSize = ++i + "px";
-
-  while (i > 0 && time.offsetWidth > body.offsetWidth*2/3 ||
-                  time.offsetHeight > body.offsetHeight*2/3)
-    time.style.fontSize = --i + "px";
 }
 
 function addDigit(digit) {
