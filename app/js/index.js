@@ -8,12 +8,19 @@ var displayedDigits = enteredDigits.slice(0);
 
 var enteringDigits = false;
 var hasInnerText;
-var then, remainingTime, timerState = 'stopped';
+var then;
+var remainingTime;
+var timerState;
 var requestID;
 
 function onLoad() {
   hasInnerText = ("innerText" in document.getElementsByTagName("body")[0]) ? true : false;
   resizeTime();
+  timerState = localStorage.getItem('timerState') || 'stopped';
+  remainingTime = parseFloat(localStorage.getItem('remainingTime')) || 0;
+  if (timerState === 'paused') {
+    showTime(remainingTime);
+  }
 }
 
 function onKeyPress(event) {
@@ -164,6 +171,9 @@ function pauseTimer() {
   showTime(remainingTime);
 
   timerState = 'paused';
+
+  localStorage.setItem('timerState', 'paused');
+  localStorage.setItem('remainingTime', remainingTime);
 }
 
 function resumeTimer() {
