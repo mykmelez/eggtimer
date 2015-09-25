@@ -25,8 +25,8 @@ function onPageShow() {
     case 'running':
       // If we were running when the page was hidden, then we subtract the time
       // we spent hidden, so the timer accounts for it and remains accurate.
-      var showTime = Date.now();
-      remainingTime = remainingTime - (showTime - (parseInt(localStorage.getItem('hideTime')) || showTime));
+      var now = Date.now();
+      remainingTime = remainingTime - (now - (parseInt(localStorage.getItem('hideTime')) || now));
       showTime(remainingTime);
       resumeTimer();
       break;
