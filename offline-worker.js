@@ -20,11 +20,15 @@
 // https://github.com/googlechrome/sw-precache/blob/master/demo/app/js/service-worker-registration.js
 // for an example of how you can register this script and handle various service worker events.
 
+/* eslint-env worker, serviceworker */
+/* eslint-disable no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren */
 'use strict';
 
 
 
-var PrecacheConfig = [["css/index.css","3ce44e48f8d25e8a10dc1babfeb57f11"],["favicon/android-chrome-144x144.png","55977723c23cade5948e7ea54c30f432"],["favicon/android-chrome-192x192.png","2f8b44101cf93c8756b825623f6cadf7"],["favicon/android-chrome-36x36.png","505a3e5f8f349b37d99719eea0dcee82"],["favicon/android-chrome-48x48.png","566feb9f62b14475ed47149cfeac95bc"],["favicon/android-chrome-72x72.png","9a786e8ec2dd57cd1af92f95eb1d1c66"],["favicon/android-chrome-96x96.png","adc3451ed08c84190eb2886908a9d66b"],["favicon/apple-touch-icon-114x114.png","978153c34c7f052847af738fdae874be"],["favicon/apple-touch-icon-120x120.png","d8f2a95598f6b65ade43529443a913a7"],["favicon/apple-touch-icon-144x144.png","248b38cd0957489272e65de6e4995d08"],["favicon/apple-touch-icon-152x152.png","b048936694550bf8da1106d8f6b6c5f1"],["favicon/apple-touch-icon-180x180.png","ac44b197f399dd65dfba624124a991ac"],["favicon/apple-touch-icon-57x57.png","98108f51ea3697bc473341c2d522b9f7"],["favicon/apple-touch-icon-60x60.png","84685a7225287f94b3151a0109aa6ffc"],["favicon/apple-touch-icon-72x72.png","7b36f661628e63d235910d8dfd8115f4"],["favicon/apple-touch-icon-76x76.png","a081394f17687c0b05b765072243d25b"],["favicon/apple-touch-icon-precomposed.png","85ead418566f180da7aa8ee16fbbd91a"],["favicon/apple-touch-icon.png","ac44b197f399dd65dfba624124a991ac"],["favicon/browserconfig.xml","f4c92decc7f810180d9d9f879dcfe963"],["favicon/favicon-16x16.png","bf63fc73494410b80cec3031194ac618"],["favicon/favicon-194x194.png","735cf7061406c6c097d863649c3b7598"],["favicon/favicon-32x32.png","2a33a1f073f2d53c6f2ff2aae2fab1cb"],["favicon/favicon-96x96.png","d60a5795d5ea64ced6247d88a0bb135d"],["favicon/favicon.ico","003763b9beaeb64bc1e0adf6e1443c9b"],["favicon/manifest.json","365ae3911e42d4a8df7cb0751673c96c"],["favicon/mstile-144x144.png","fdf45a44d2f2a28497a9afd531d99bff"],["favicon/mstile-150x150.png","584b9dcadcc9da11464a9a1550754435"],["favicon/mstile-310x150.png","0368a47941d17ec1157bae5e199212cb"],["favicon/mstile-310x310.png","d307e42284c46931eafa51d8f7ca171b"],["favicon/mstile-70x70.png","345e6ef2fe7ce3ceab8dec66477ae757"],["index.html","6a8e2dc5cfa80795956b20e30cb54f99"],["js/index.js","c9e85b75347c7c1e743aa4eff75b8537"],["js/offline-manager.js","28bd78ca4fcf8ae2b562c51a1cd2f5d3"]];
+/* eslint-disable quotes, comma-spacing */
+var PrecacheConfig = [["css/index.css","3ce44e48f8d25e8a10dc1babfeb57f11"],["favicon/android-chrome-144x144.png","55977723c23cade5948e7ea54c30f432"],["favicon/android-chrome-192x192.png","2f8b44101cf93c8756b825623f6cadf7"],["favicon/android-chrome-36x36.png","505a3e5f8f349b37d99719eea0dcee82"],["favicon/android-chrome-48x48.png","566feb9f62b14475ed47149cfeac95bc"],["favicon/android-chrome-72x72.png","9a786e8ec2dd57cd1af92f95eb1d1c66"],["favicon/android-chrome-96x96.png","adc3451ed08c84190eb2886908a9d66b"],["favicon/apple-touch-icon-114x114.png","978153c34c7f052847af738fdae874be"],["favicon/apple-touch-icon-120x120.png","d8f2a95598f6b65ade43529443a913a7"],["favicon/apple-touch-icon-144x144.png","248b38cd0957489272e65de6e4995d08"],["favicon/apple-touch-icon-152x152.png","b048936694550bf8da1106d8f6b6c5f1"],["favicon/apple-touch-icon-180x180.png","ac44b197f399dd65dfba624124a991ac"],["favicon/apple-touch-icon-57x57.png","98108f51ea3697bc473341c2d522b9f7"],["favicon/apple-touch-icon-60x60.png","84685a7225287f94b3151a0109aa6ffc"],["favicon/apple-touch-icon-72x72.png","7b36f661628e63d235910d8dfd8115f4"],["favicon/apple-touch-icon-76x76.png","a081394f17687c0b05b765072243d25b"],["favicon/apple-touch-icon-precomposed.png","85ead418566f180da7aa8ee16fbbd91a"],["favicon/apple-touch-icon.png","ac44b197f399dd65dfba624124a991ac"],["favicon/browserconfig.xml","ecf8f21c7aaec3133a29a16a8f0bfb57"],["favicon/favicon-16x16.png","bf63fc73494410b80cec3031194ac618"],["favicon/favicon-194x194.png","735cf7061406c6c097d863649c3b7598"],["favicon/favicon-32x32.png","2a33a1f073f2d53c6f2ff2aae2fab1cb"],["favicon/favicon-96x96.png","d60a5795d5ea64ced6247d88a0bb135d"],["favicon/favicon.ico","003763b9beaeb64bc1e0adf6e1443c9b"],["favicon/manifest.json","45ca79381809c2b75b0307868481277e"],["favicon/mstile-144x144.png","fdf45a44d2f2a28497a9afd531d99bff"],["favicon/mstile-150x150.png","584b9dcadcc9da11464a9a1550754435"],["favicon/mstile-310x150.png","0368a47941d17ec1157bae5e199212cb"],["favicon/mstile-310x310.png","d307e42284c46931eafa51d8f7ca171b"],["favicon/mstile-70x70.png","345e6ef2fe7ce3ceab8dec66477ae757"],["index.html","6a8e2dc5cfa80795956b20e30cb54f99"],["js/index.js","c9e85b75347c7c1e743aa4eff75b8537"],["js/offline-manager.js","28bd78ca4fcf8ae2b562c51a1cd2f5d3"]];
+/* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1--' + (self.registration ? self.registration.scope : '') + '-';
 
 
@@ -100,7 +104,7 @@ self.addEventListener('install', function(event) {
     caches.keys().then(function(allCacheNames) {
       return Promise.all(
         Object.keys(CurrentCacheNamesToAbsoluteUrl).filter(function(cacheName) {
-          return allCacheNames.indexOf(cacheName) == -1;
+          return allCacheNames.indexOf(cacheName) === -1;
         }).map(function(cacheName) {
           var url = new URL(CurrentCacheNamesToAbsoluteUrl[cacheName]);
           // Put in a cache-busting parameter to ensure we're caching a fresh response.
@@ -114,30 +118,30 @@ self.addEventListener('install', function(event) {
           return caches.open(cacheName).then(function(cache) {
             var request = new Request(urlWithCacheBusting, {credentials: 'same-origin'});
             return fetch(request.clone()).then(function(response) {
-              if (response.status == 200) {
+              if (response.ok) {
                 return cache.put(request, response);
-              } else {
-                console.error('Request for %s returned a response with status %d, so not attempting to cache it.',
-                  urlWithCacheBusting, response.status);
-                // Get rid of the empty cache if we can't add a successful response to it.
-                return caches.delete(cacheName);
               }
+
+              console.error('Request for %s returned a response with status %d, so not attempting to cache it.',
+                urlWithCacheBusting, response.status);
+              // Get rid of the empty cache if we can't add a successful response to it.
+              return caches.delete(cacheName);
             });
           });
         })
       ).then(function() {
         return Promise.all(
           allCacheNames.filter(function(cacheName) {
-            return cacheName.indexOf(CacheNamePrefix) == 0 &&
+            return cacheName.indexOf(CacheNamePrefix) === 0 &&
                    !(cacheName in CurrentCacheNamesToAbsoluteUrl);
           }).map(function(cacheName) {
             console.log('Deleting out-of-date cache "%s"', cacheName);
             return caches.delete(cacheName);
           })
-        )
+        );
       });
     }).then(function() {
-      if (typeof self.skipWaiting == 'function') {
+      if (typeof self.skipWaiting === 'function') {
         // Force the SW to transition from installing -> active state
         self.skipWaiting();
       }
@@ -145,14 +149,14 @@ self.addEventListener('install', function(event) {
   );
 });
 
-if (self.clients && (typeof self.clients.claim == 'function')) {
+if (self.clients && (typeof self.clients.claim === 'function')) {
   self.addEventListener('activate', function(event) {
     event.waitUntil(self.clients.claim());
   });
 }
 
 self.addEventListener('message', function(event) {
-  if (event.data.command == 'delete_all') {
+  if (event.data.command === 'delete_all') {
     console.log('About to delete all caches...');
     deleteAllCaches().then(function() {
       console.log('Caches deleted.');
@@ -170,7 +174,7 @@ self.addEventListener('message', function(event) {
 
 
 self.addEventListener('fetch', function(event) {
-  if (event.request.method == 'GET') {
+  if (event.request.method === 'GET') {
     var urlWithoutIgnoredParameters = stripIgnoredUrlParameters(event.request.url,
       IgnoreUrlParametersMatching);
 
