@@ -64,6 +64,31 @@ function onStartPauseButtonClick() {
       break;
   }
 }
+
+var inputField = document.getElementById('inputField');
+
+// Listen for touchend on mobile devices so we know when the user taps the time.
+document.getElementById('time').addEventListener('touchend', function(event) {
+  // We only let the user set the time when the timer is stopped.
+  if (timerState !== 'running') {
+    // Focus the input field to show the number keyboard on mobile devices.
+    inputField.focus();
+
+    // Prevent the default so the event doesn't re-propagate as a click event,
+    // which would cause the input field to blur right after being focused.
+    event.preventDefault();
+  }
+}, false);
+
+inputField.addEventListener('keypress', function() {
+  // We don't actually have to do anything with the keypress here, as the body's
+  // event listener for keypresses will handle these too.
+
+  // Reset the input field value, so it doesn't build up over time.
+  // This probably doesn't matter, but it seems like the right thing to do.
+  inputField.value = '';
+}, false);
+
 function onKeyPress(event) {
   // Let the browser handle key combinations.
   if (event.altKey || event.ctrlKey || event.shiftKey || event.metaKey)
@@ -115,8 +140,8 @@ function onKeyPress(event) {
     //case 103: // DOM_VK_NUMPAD7
     //case 104: // DOM_VK_NUMPAD8
     //case 105: // DOM_VK_NUMPAD9
-      // We only let the user set the time when the timer is stopped.
-      if (timerState === 'stopped') {
+      // We only let the user set the time when the timer isn't running.
+      if (timerState !== 'running') {
         // If the user just started typing a time, reset the timer
         // to all zeros so the user can enter a partial time without
         // some of the previous time potentially hanging around.
@@ -125,6 +150,9 @@ function onKeyPress(event) {
           enteringDigits = true;
         }
         addDigit(parseInt(String.fromCharCode(code)));
+        if (timerState === 'paused') {
+          timerState = 'stopped';
+        }
       }
       // IE's key events don't support preventDefault.
       if (event.preventDefault)

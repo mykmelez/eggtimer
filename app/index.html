@@ -37,6 +37,13 @@
       <span id="time">05:00</span>
       <img id="startPauseButton" class="button" src="img/start.svg">
     </div>
+
+    <!-- We use this input field to show the number keyboard on mobile devices,
+         when the user touches the time, by focusing this field. -->
+    <div style="width: 0; height: 0; overflow: hidden;">
+      <input id="inputField" type="number">
+    </div>
+
     <script src="js/offline-manager.js"></script>
     <script src="js/index.js"></script>
   </body>
