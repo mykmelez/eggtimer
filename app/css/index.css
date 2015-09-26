@@ -19,6 +19,11 @@ body {
 }
 
 #time {
-  font-family: monospace;
   vertical-align: middle;
+}
+
+#time > span {
+  display: inline-block;
+  width: 0.7em;
+  text-align: center;
 }
