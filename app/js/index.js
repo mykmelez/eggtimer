@@ -3,8 +3,8 @@
 // element 1: tens of seconds
 // element 2: minutes
 // element 3: tens of minutes
-var enteredDigits = [0, 0, 5, 0];
-var displayedDigits = enteredDigits.slice(0);
+var enteredDigits;
+var displayedDigits;
 
 var enteringDigits = false;
 var hasInnerText;
@@ -22,6 +22,11 @@ function onPageShow() {
   hasInnerText = ("innerText" in document.getElementsByTagName("body")[0]) ? true : false;
   timerState = localStorage.getItem('timerState') || 'stopped';
   remainingTime = parseFloat(localStorage.getItem('remainingTime')) || 0;
+
+  var digits = localStorage.getItem('digits');
+  enteredDigits = digits ? digits.split(',') : [0, 0, 5, 0];
+  displayedDigits = enteredDigits.slice(0);
+
   switch (timerState) {
     case 'paused':
       showTime(remainingTime);
@@ -276,4 +281,5 @@ function addDigit(digit) {
   enteredDigits.unshift(digit);
   enteredDigits.length = 4;
   this.resetTimer();
+  localStorage.setItem('digits', enteredDigits.join(','));
 }
