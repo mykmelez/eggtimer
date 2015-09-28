@@ -199,6 +199,7 @@ function animateTimer(now) {
 }
 
 function startTimer() {
+  remainingTime = (parseInt(enteredDigits[3] + '' + enteredDigits[2]) * 60 + parseInt(enteredDigits[1] + '' + enteredDigits[0])) * 1000;
   resumeTimer();
 }
 
