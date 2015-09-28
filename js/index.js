@@ -13,6 +13,11 @@ var remainingTime;
 var timerState;
 var requestID;
 
+var m1 = document.getElementById('m1');
+var m0 = document.getElementById('m0');
+var s1 = document.getElementById('s1');
+var s0 = document.getElementById('s0');
+
 function onPageShow() {
   hasInnerText = ("innerText" in document.getElementsByTagName("body")[0]) ? true : false;
   timerState = localStorage.getItem('timerState') || 'stopped';
@@ -260,8 +265,10 @@ function showDigits(digits) {
   }
 
   displayedDigits = digits.slice(0);
-  document.getElementById("time")[hasInnerText ? "innerText" : "textContent"] = 
-    (String(digits[3]) + String(digits[2]) + ":" + String(digits[1]) + String(digits[0]));
+  m1[hasInnerText ? "innerText" : "textContent"] = digits[3];
+  m0[hasInnerText ? "innerText" : "textContent"] = digits[2];
+  s1[hasInnerText ? "innerText" : "textContent"] = digits[1];
+  s0[hasInnerText ? "innerText" : "textContent"] = digits[0];
 }
 
 function addDigit(digit) {

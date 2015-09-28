@@ -10,20 +10,8 @@ body {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
-  font-size: 15vw;
-}
-
-.button {
-  height: 0.5em;
-  vertical-align: middle;
 }
 
 #time {
-  vertical-align: middle;
-}
-
-#time > span {
-  display: inline-block;
-  width: 0.7em;
-  text-align: center;
+  font-family: sans-serif;
 }
