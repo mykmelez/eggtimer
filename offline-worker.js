@@ -39,7 +39,7 @@
 
     // This is the unique name for the cache controlled by this version of the worker.
     get CACHE_NAME() {
-      return this.CACHE_PREFIX + '6c3a2af9222ccb80ca6aa753de848530ce974758';
+      return this.CACHE_PREFIX + 'cb759b8e2aab092c8e569be4064b31ea625796a2';
     },
 
     // This is a list of resources that will be cached.
@@ -47,7 +47,7 @@
       './index.html', // eaaf8c482e41b792677b2eae6413f8f8b9346670
       './css/index.css', // 037dd2cfac26017bafd00085121e818eca059393
       './js/index.js', // 1ebe9a43521b8adf07620174527dee080d99fe3f
-      './js/offline-manager.js', // baf204692e523b9a71f5686f5df47e20ed16a2f7
+      './js/offline-manager.js', // e2e09e000c5b64035940ae44e9c0936eb25ecd51
       './favicon/android-chrome-144x144.png', // 3b5d96cc1a852daba853e70afa4422fdce66ff13
       './favicon/android-chrome-192x192.png', // b1b04106f9107e40b26728b285b4e6983b8cd217
       './favicon/android-chrome-36x36.png', // c10f72cdbd4e241c2ce208d63b97f32b0ddc146e
