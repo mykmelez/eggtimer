@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-  - '0.10'
+  - '0.12'
+install: npm install
+script: 'gulp build && gulp offline'
 env:
   global:
-    - secure: apJaPfSA/ZxKEcp5bKhyRKQG1inAm/faWKatQriRZ7pJt93cPjhwnhbzcdT8CbP8mPLisdwdT6iMtjexLG37N9/jq0pnVFdy8vI1VX0ALEjRAKKp2jgIf3GHhtTVp478DkaNkKCX1IepVjYMMneqtX2LmLDBwXW7GHMESBNsn7PM2hvpsCc2JWfDpQNConD0X64n2T05Wr2ZmDSJzIFZh9XCc40ibyBLBhDphQkAMT2mPf0SU7Kyyv4zT9PglQoLV/I0XgKljb9Hp09DEeFNvYuz4v7NSlOVGzdN+KcZJ0Jw63gjU1KcxmKKKA7BSQLEkt1E2zuB/2tAvRXe4QtsYJFQGdn56ONhD4vT7QcCzngW9tgssLuClGUDUchL16W1aH1LNtKUaJURN08Kj5NlfMJbIU8xSzuATdBum7wFdiG6RoBAMvW7IainUo/1z0K26DILsEPiAFuaQoZ/S0rOLBI+jc/XX6fySG4862/J2M1Ma3cytR2nWRieco6oQvxubQcT6QboztahjCsSJXCRRblckRMPSrUNl3rbGb6BzVmTTP2+FkgSwLFhbkArMvJXEVVT0ROukpD0gQjwZbJW4A/Lp/lwJk8WRYXCvmETMc5cmpMHRDo6QAy6+MHHsqlosH16hFLeeOM1IQsa67i/ZcuCjr0nQz0PjvrrYl0JqVw=
-install: npm install
+    - secure: HnhhbHG7P3Ysg4jn9XvO8TGwAavX38Od2ni+O06iuFJL4slg9eNTtJwIsqxoidiKiUSdsTbPZyCioM/CmcujVR3VbP11Jq7hE6dkpdjhStWEyPbz4lTEoMZshFMHd9YZicjffY/kjDmuNcWJAYc4YmqqElB8uVJ2yVshIeKnzBMMjrL/M2RIHekc8p/QqPbrhioZ+PPUBgQFA88U99QtjAl19Dl3+Kc5EgWTUZJCGCYunYC10ZWML8/UGnXE2rk0AF7PXq/UHyOuClIgME1/96tQgCVrT2evYTW0e/0dvNNnmN+ZmdP6+iQD5Y7SSNLSOi4CCvuMwcnqN2JvdKrM4tDxOHK/bHlZC4L0BH/JI3abCNJITi45+Uk/6yYNn2Wyosu40t4w1U+So2GAFj6jXKbmUNj2PJj+ZW8GbP8AkTGH5rrLJBgUyb8JHlKBxwD/NMQLlvKDJD2u+ioqdx9j8EQOhMfdvWwgUnh7aLLYsnd97eKXhYw8aYTs4Lnx4wgrEImoq2ps9hUcfR2IEh0jBUfb8b+uIWYDt4lduCjmMwGPz0+ZtPAMe16GPR91zi+qhSf8zSFWUmXN6Z9o3z2rioNAL01MbhxhPObA3M2pAMOtQeM6KW1yrWtnjz/MIOfWKuJKQhZJj3gqtYau5kDWYfT6LCy30u1o/dGLBYfoT1s=
 before_script:
-  - 'git config --global user.name "Travis-CI"'
+  - 'git config --global user.name "Travis CI"'
   - 'git config --global user.email "myk@mykzilla.org"'
-script: gulp
 after_success:
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && gulp deploy'
+  - 'echo "travis_fold:end:after_success" && [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && echo "Deploying…" && gulp deploy'
