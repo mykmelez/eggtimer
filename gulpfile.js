@@ -18,20 +18,12 @@
 
 var connect = require('gulp-connect');
 var gulp = require('gulp');
-var oghliner = require('./index.js');
+var oghliner = require('oghliner');
 
 gulp.task('default', ['build', 'offline']);
 
 gulp.task('build', function(callback) {
   return gulp.src('app/**').pipe(gulp.dest('dist'));
-});
-
-gulp.task('configure', oghliner.configure);
-
-gulp.task('deploy', function(callback) {
-  oghliner.deploy({
-    rootDir: 'dist',
-  }, callback);
 });
 
 gulp.task('offline', ['build'], function(callback) {
@@ -43,6 +35,12 @@ gulp.task('offline', ['build'], function(callback) {
       'js/*.js',
       'favicon/*',
     ],
+  }, callback);
+});
+
+gulp.task('deploy', function(callback) {
+  oghliner.deploy({
+    rootDir: 'dist',
   }, callback);
 });
 
