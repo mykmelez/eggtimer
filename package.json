@@ -2,12 +2,13 @@
   "name": "Eggtimer",
   "version": "1.0.0",
   "description": "An egg timer.",
+  "repository": "https://github.com/mykmelez/eggtimer",
   "author": {
     "name": "Myk Melez",
     "email": "myk@mykzilla.org",
     "url": "http://mykzilla.org/"
   },
-  "homepage": "https://github.com/mykmelez/eggtimer/",
+  "homepage": "https://eggtimer.org/",
   "license": "Apache-2.0",
   "contributors": [
     "play, pause, and refresh icons by Heberti Almeida from the  Noun Project (https://thenounproject.com/hebertialmeida/collection/app-for-kids/)",
